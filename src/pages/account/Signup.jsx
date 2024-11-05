@@ -36,7 +36,7 @@ const SignUp = () => {
 
   return (
     <>
-      <div className="bg-main-bg lg:h-screen h-full px-5 lg:py-0 py-10 lg:flex-row flex-col  flex gap-10 lg:gap-20 lg:justify-center items-center  ">
+      <div className="bg-main-bg lg:h-screen h-full px-5 py-10 flex flex-col lg:flex-row gap-10 lg:gap-20 lg:justify-center items-center  ">
         <div className="font-albert-sans space-y-6 text-white max-w-[629px] ">
           <Link href="/">
             <img src={bibleIcon} />
@@ -49,7 +49,7 @@ const SignUp = () => {
             deepen your connection with scripture.
           </p>
         </div>
-        <div className="bg-white lg:px-9 px-4 py-5 rounded-3xl font-albert-sans max-w-[542px] ">
+        <div className="bg-white lg:px-8 px-4 py-5 rounded-3xl font-albert-sans max-w-[542px] ">
           <h2 className="font-medium lg:text-3xl text-base pb-6 ">Sign up</h2>
           <Formik
             initialValues={{
@@ -78,7 +78,7 @@ const SignUp = () => {
               errors,
             }) => (
               <form onSubmit={handleSubmit}>
-                <div className="lg:grid gap-5 space-y-5 grid-cols-2">
+                <div className="lg:grid gap-5  grid-cols-2">
                   <FormInput
                     heading="First Name"
                     type="text"
@@ -131,12 +131,12 @@ const SignUp = () => {
 
                   <button
                     type="submit"
-                    className="bg-[#CA0E18] py-3 text-center w-full col-span-2 text-white font-albert-sans font-bold rounded-xl text-xs lg:text-lg"
+                    className="bg-[#CA0E18] py-2 text-center w-full col-span-2 text-white font-albert-sans font-bold rounded-xl text-xs lg:text-lg"
                     disabled={isSubmitting}
                   >
                     Create an account
                   </button>
-                  <p className="col-span-2 font-albert-sans font-medium text-xs lg:text-sm text-[#5D5D5D] ">
+                  <p className="col-span-2 font-albert-sans font-medium text-xs  text-[#5D5D5D] ">
                     By clicking “Create account” above, you knowledge that you
                     will receive updates from the bibleinterpretation team and
                     that you have read, understand, and agreed to
@@ -204,12 +204,12 @@ const SignUp = () => {
           </Formik>
 
           <div className="space-y-4 py-4">
-            <button className="border-black w-full rounded-3xl border py-3 ">
+            <button className="border-black w-full rounded-3xl border py-2 ">
               <h1 className="flex justify-center text-[#545555] items-center gap-4">
                 <img className="h-fit" src={googleIcon} /> Sign up with Google
               </h1>
             </button>
-            <button className="border-black w-full rounded-3xl border py-3 ">
+            <button className="border-black w-full rounded-3xl border py-2 ">
               <h1 className="flex justify-center text-[#545555] items-center gap-4">
                 <img className="h-fit" src={fbIcon} />
                 Sign up with Facebook
