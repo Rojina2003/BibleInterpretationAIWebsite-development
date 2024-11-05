@@ -10,6 +10,7 @@ import googleIcon from "../../assets/img/devicon_google.png";
 import fbIcon from "../../assets/img/logos_facebook.png";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
+import ContentWrapper from "../../components/common/wrapper";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -35,8 +36,8 @@ const SignUp = () => {
   const { isLoading } = useSelector((state) => state.auth);
 
   return (
-    <>
-      <div className="bg-main-bg lg:h-screen h-full px-5 py-10 flex flex-col lg:flex-row gap-10 lg:gap-20 lg:justify-center items-center  ">
+    <ContentWrapper>
+      <div className=" lg:h-screen h-full max-w-[1275px] px-5 py-10 flex flex-col lg:flex-row gap-10 lg:gap-20 mx-auto items-center  ">
         <div className="font-albert-sans space-y-6 text-white max-w-[629px] ">
           <Link href="/">
             <img src={bibleIcon} />
@@ -49,7 +50,7 @@ const SignUp = () => {
             deepen your connection with scripture.
           </p>
         </div>
-        <div className="bg-white lg:px-8 px-4 py-5 rounded-3xl font-albert-sans max-w-[542px] ">
+        <div className="bg-white lg:px-8 px-4 py-5  lg:max-h-[600px] h-full lg:overflow-auto rounded-3xl font-albert-sans max-w-[542px] ">
           <h2 className="font-medium lg:text-3xl text-base pb-6 ">Sign up</h2>
           <Formik
             initialValues={{
@@ -78,7 +79,7 @@ const SignUp = () => {
               errors,
             }) => (
               <form onSubmit={handleSubmit}>
-                <div className="lg:grid gap-5  grid-cols-2">
+                <div className="lg:grid items-end gap-5 lg:space-y-0 space-y-4 grid-cols-2">
                   <FormInput
                     heading="First Name"
                     type="text"
@@ -136,7 +137,7 @@ const SignUp = () => {
                   >
                     Create an account
                   </button>
-                  <p className="col-span-2 font-albert-sans font-medium text-xs  text-[#5D5D5D] ">
+                  <p className="col-span-2 font-albert-sans font-medium text-xs lg:text-sm text-[#5D5D5D] ">
                     By clicking “Create account” above, you knowledge that you
                     will receive updates from the bibleinterpretation team and
                     that you have read, understand, and agreed to
@@ -233,7 +234,7 @@ const SignUp = () => {
         </div>
       </div>
       {isLoading ? <Loader open={isLoading} message="" /> : ""}
-    </>
+    </ContentWrapper>
   );
 };
 
