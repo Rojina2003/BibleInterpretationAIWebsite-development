@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleRegisterReq } from "../../redux/auth/actions";
 import Loader from "../../components/Loader";
 import FormInput from "../../components/common/formInput";
-import bibleIcon from "../../assets/bible-logo.png";
+import LeftContainer from "../../components/common/leftContainer";
 import googleIcon from "../../assets/img/devicon_google.png";
 import fbIcon from "../../assets/img/logos_facebook.png";
 import { Check } from "lucide-react";
@@ -39,18 +39,9 @@ const SignUp = () => {
   return (
     <ContentWrapper>
       <div className=" lg:h-screen h-full max-w-[1275px] px-5 py-10 grid lg:grid-cols-2 gap-10 lg:gap-20 mx-auto items-center  ">
-        <div className="font-albert-sans space-y-6 text-white max-w-[629px] ">
-          <Link href="/">
-            <img src={bibleIcon} />
-          </Link>
-          <h1 className="font-bold text-3xl lg:text-4xl ">
-            Join the Journey of Faith and Understanding
-          </h1>
-          <p className="lg:text-lg text-sm text-[#EA9DA1] ">
-            Create an account to access personalized Bible interpretations and
-            deepen your connection with scripture.
-          </p>
-        </div>
+      <LeftContainer
+       description="Create an account to access personalized Bible interpretations and deepen your connection with scripture."
+       />
         <div className="bg-white  py-5 mx-auto rounded-3xl font-albert-sans lg:max-w-[542px]  ">
          <div className="lg:max-h-[600px] lg:px-9 px-5 h-full  custom-scrollbar" >
          <h2 className="font-medium lg:text-3xl text-base pb-6 ">Sign up</h2>

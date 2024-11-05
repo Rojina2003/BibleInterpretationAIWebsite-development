@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import FormInput from "../../components/common/formInput";
 import { useDispatch } from "react-redux";
 import { handleForgotPasswordReq } from "../../redux/auth/actions";
-import bibleLogo from "../../assets/bible-logo.png";
+import LeftContainer from "../../components/common/leftContainer";
 import ContentWrapper from "../../components/common/wrapper";
 
 // Validation schema using Yup
@@ -22,22 +22,9 @@ const ForgotPassword = () => {
   return (
     <ContentWrapper>
       <div className="lg:h-screen h-full max-w-[1263px] mx-auto lg:space-y-0 space-y-3 items-center gap-5 lg:py-0 py-10 lg:gap-20 grid lg:grid-cols-2 ">
-        <div className="font-albert-sans space-y-6 text-white max-w-[629px] ">
-          <Link to="/">
-            <img
-              style={{ width: "150px", marginBottom: "20px" }}
-              src={bibleLogo}
-              alt="Bible Logo"
-            />
-          </Link>
-          <h1 className="font-bold text-3xl lg:text-4xl ">
-            Join the Journey of Faith and Understanding
-          </h1>
-          <p className="lg:text-lg text-sm text-[#EA9DA1] ">
-            Create an account to access personalized Bible interpretations and
-            deepen your connection with scripture.
-          </p>
-        </div>
+      <LeftContainer
+       description="Create an account to access personalized Bible interpretations and deepen your connection with scripture."
+       />
         <div>
           <div className="bg-white px-4 lg:px-9 rounded-3xl w-full lg:max-w-[542px] text-black">
             <p className="font-albert-sans font-medium text-xl lg:text-3xl lg:py-8 py-5 ">
