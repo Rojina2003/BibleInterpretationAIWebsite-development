@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleResetPasswordReq } from "../../redux/auth/actions";
-import "./account.css"; // Import your CSS file
+// import "./account.css"; // Import your CSS file
 
 // Validation schema using Yup
 const validationSchema = Yup.object({

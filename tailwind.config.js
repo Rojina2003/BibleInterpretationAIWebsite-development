@@ -10,7 +10,7 @@ export default {
         'albert-sans': ["Albert Sans", "sans-serif"]
       },
       backgroundImage:{
-        'main-bg':"url('src/assets/img/Backgroundimage.png')"
+        'main-bg':"url('/assets/images/Backgroundimage.png')"
       }
     },
   },

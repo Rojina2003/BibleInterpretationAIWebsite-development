@@ -37,7 +37,7 @@ const SignUp = () => {
 
   return (
     <ContentWrapper>
-      <div className=" lg:h-screen h-full max-w-[1275px] px-5 py-10 flex flex-col lg:flex-row gap-10 lg:gap-20 mx-auto items-center  ">
+      <div className=" lg:h-screen h-full max-w-[1275px] px-5 py-10 grid lg:grid-cols-2 gap-10 lg:gap-20 mx-auto items-center  ">
         <div className="font-albert-sans space-y-6 text-white max-w-[629px] ">
           <Link href="/">
             <img src={bibleIcon} />
@@ -50,8 +50,9 @@ const SignUp = () => {
             deepen your connection with scripture.
           </p>
         </div>
-        <div className="bg-white lg:px-8 px-4 py-5  lg:max-h-[600px] h-full lg:overflow-auto rounded-3xl font-albert-sans max-w-[542px] ">
-          <h2 className="font-medium lg:text-3xl text-base pb-6 ">Sign up</h2>
+        <div className="bg-white  py-5 mx-auto rounded-3xl font-albert-sans lg:max-w-[542px]  ">
+         <div className="lg:max-h-[600px] lg:px-9 px-5 h-full  custom-scrollbar" >
+         <h2 className="font-medium lg:text-3xl text-base pb-6 ">Sign up</h2>
           <Formik
             initialValues={{
               firstName: "",
@@ -63,8 +64,6 @@ const SignUp = () => {
             }}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting }) => {
-              // delete values?.confirmPassword; // or use => delete test['blue'];
-
               dispatch(handleRegisterReq(values, navigate, setSubmitting));
             }}
           >
@@ -79,29 +78,44 @@ const SignUp = () => {
               errors,
             }) => (
               <form onSubmit={handleSubmit}>
-                <div className="lg:grid items-end gap-5 lg:space-y-0 space-y-4 grid-cols-2">
-                  <FormInput
-                    heading="First Name"
-                    type="text"
-                    placeholder="First Name"
-                    name="firstName"
-                    value={values.firstName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.firstName}
-                    touched={touched.firstName}
-                  />
-                  <FormInput
-                    heading="Second Name"
-                    type="text"
-                    placeholder="Second Name"
-                    name="Second Name"
-                    value={values.secondName}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    error={errors.secondName}
-                    touched={touched.secondName}
-                  />
+                <div className="md:grid  gap-5 lg:space-y-0 space-y-4 grid-cols-2">
+                  <div className="pt-4 lg:pt-0 " >
+                    <FormInput
+                      heading="First Name"
+                      type="text"
+                      placeholder="First Name"
+                      name="firstName"
+                      value={values.firstName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.firstName}
+                      touched={touched.firstName}
+                    />
+                    {touched.firstName && errors.firstName && (
+                      <div className="text-red-500 text-xs lg:text-sm mt-1">
+                        {errors.firstName}
+                      </div>
+                    )}
+                  </div>
+                  <div>
+                    <FormInput
+                      heading="Second Name"
+                      type="text"
+                      placeholder="Second Name"
+                      name="Second Name"
+                      value={values.secondName}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      error={errors.secondName}
+                      touched={touched.secondName}
+                    />
+                    {touched.secondName && errors.secondName && (
+                      <div className="text-red-500 text-xs lg:text-sm mt-1">
+                        {errors.secondName}
+                      </div>
+                    )}
+                  </div>
+
                   <FormInput
                     className="col-span-2"
                     heading="Email"
@@ -112,24 +126,45 @@ const SignUp = () => {
                     error={errors.email}
                     touched={touched.email}
                   />
-                  <FormInput
-                    heading="Password"
-                    placeholder="Password"
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    value={values.password}
-                    error={errors.password}
-                    touched={touched.password}
-                  />
-                  <FormInput
-                    heading="Confirm Password"
-                    placeholder="Confirm Password"
-                    error={errors.confirmPassword}
-                    touched={touched.confirmPassword}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  />
+                  {touched.email && errors.email && (
+                    <div className="text-red-500 text-xs col-span-2 lg:text-sm mt-1">
+                      {errors.email}
+                    </div>
+                  )}
+                  <div>
+                    <FormInput
+                      heading="Password"
+                      placeholder="Password"
+                      name="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                      error={errors.password}
+                      touched={touched.password}
+                    />
+                    {touched.password && errors.password && (
+                      <div className="text-red-500 text-xs lg:text-sm mt-1">
+                        {errors.password}
+                      </div>
+                    )}
+                  </div>
 
+                  <div>
+                    <FormInput
+                      heading="Confirm Password"
+                      placeholder="Confirm Password"
+                      name="confirmPassword"
+                      error={errors.confirmPassword}
+                      touched={touched.confirmPassword}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                    />
+                    {touched.confirmPassword && errors.confirmPassword && (
+                      <div className="text-red-500 text-xs lg:text-sm mt-1">
+                        {errors.confirmPassword}
+                      </div>
+                    )}
+                  </div>
                   <button
                     type="submit"
                     className="bg-[#CA0E18] py-2 text-center w-full col-span-2 text-white font-albert-sans font-bold rounded-xl text-xs lg:text-lg"
@@ -203,8 +238,12 @@ const SignUp = () => {
               </form>
             )}
           </Formik>
-
-          <div className="space-y-4 py-4">
+          <p className="flex items-center w-full my-5 mx-auto">
+            <span className="flex-grow border-b border-[#999999]"></span>
+            <span className="mx-4 text-[#999999]">or</span>
+            <span className="flex-grow border-t border-[#999999]"></span>
+          </p>
+          <div className="space-y-4 pb-4">
             <button className="border-black w-full rounded-3xl border py-2 ">
               <h1 className="flex justify-center text-[#545555] items-center gap-4">
                 <img className="h-fit" src={googleIcon} /> Sign up with Google
@@ -231,6 +270,7 @@ const SignUp = () => {
               </Link>
             </button>
           </div>
+         </div>
         </div>
       </div>
       {isLoading ? <Loader open={isLoading} message="" /> : ""}

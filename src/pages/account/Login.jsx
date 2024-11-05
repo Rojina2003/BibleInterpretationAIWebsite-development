@@ -18,7 +18,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLoginReq } from "../../redux/auth/actions";
-import "./account.css"; // Import your CSS file
+// import "./account.css"; // Import your CSS file
 import Loader from "../../components/Loader";
 
 // Validation schema using Yup

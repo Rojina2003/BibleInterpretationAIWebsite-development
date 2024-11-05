@@ -4,12 +4,11 @@ const FormInput = ({
   heading="",
   type = "text",
   placeholder = "",
+  name,
   ariaLabel = "",
   value,
   onChange,
   onBlur,
-  error,
-  touched,
   className = "",
   ...props
 }) => {
@@ -19,16 +18,15 @@ const FormInput = ({
       <input
         type={type}
         placeholder={placeholder}
+        name={name}
         aria-label={ariaLabel}
         value={value}
         onChange={onChange}
         onBlur={onBlur}
-        className={`bg-[#F1F0EE] rounded-xl w-full py-2 px-4  ${error && touched ? "border-red-500" : ""}`}
+        className="bg-[#F1F0EE] rounded-xl w-full py-2 px-4   "
         {...props}
       />
-      {touched && error ? (
-        <div className="text-red-500 text-xs lg:text-sm mt-1">{error}</div>
-      ) : null}
+     
     </div>
   );
 };
