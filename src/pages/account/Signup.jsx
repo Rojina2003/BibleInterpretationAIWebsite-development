@@ -5,12 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleRegisterReq } from "../../redux/auth/actions";
 import Loader from "../../components/Loader";
 import FormInput from "../../components/common/formInput";
-import bibleIcon from "../../assets/bible-icon.png";
+import bibleIcon from "../../assets/bible-logo.png";
 import googleIcon from "../../assets/img/devicon_google.png";
 import fbIcon from "../../assets/img/logos_facebook.png";
 import { Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import ContentWrapper from "../../components/common/wrapper";
+import Button from "../../components/common/button";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -165,13 +166,7 @@ const SignUp = () => {
                       </div>
                     )}
                   </div>
-                  <button
-                    type="submit"
-                    className="bg-[#CA0E18] py-2 text-center w-full col-span-2 text-white font-albert-sans font-bold rounded-xl text-xs lg:text-lg"
-                    disabled={isSubmitting}
-                  >
-                    Create an account
-                  </button>
+                  <Button type="submit" text="Create an account" disabled={isSubmitting} />
                   <p className="col-span-2 font-albert-sans font-medium text-xs lg:text-sm text-[#5D5D5D] ">
                     By clicking “Create account” above, you knowledge that you
                     will receive updates from the bibleinterpretation team and
