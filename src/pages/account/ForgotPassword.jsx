@@ -108,7 +108,7 @@ const ForgotPassword = () => {
             </Formik>
             <p className="font-albert-sans py-5 text-xs lg:text-lg  ">
               Would you like to go back to the login page?{" "}
-              <Link href="/login">Login</Link>
+              <Link to="/login">Login</Link>
             </p>
           </div>
         </div>
