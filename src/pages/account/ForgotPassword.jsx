@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import "./account.css"; // Import your CSS file
+// import "./account.css"; // Import your CSS file
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { handleForgotPasswordReq } from "../../redux/auth/actions";

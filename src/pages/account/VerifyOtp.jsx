@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleForgotPasswordReq, onVerifyOTP } from "../../redux/auth/actions";
 import Loader from "../../components/Loader";
-import "./account.css"; // Import CSS for the custom styles
+// import "./account.css"; // Import CSS for the custom styles
 
 const VerifyEmailDialog = ({ open, onClose, email }) => {
   const dispatch = useDispatch();
