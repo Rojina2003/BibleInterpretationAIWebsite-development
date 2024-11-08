@@ -1,4 +1,4 @@
-import{b as f,d as u,u as N,j as e,o as j,L as c}from"./index-CImaTEcH.js";import{c as b,a as o,e as w,d as y,F as v}from"./bible-logo-BfUdi7hR.js";import{L as P}from"./Loader-C0DLp225.js";import{L as k,F as l}from"./logoContainer-QsD5BRK3.js";import{g as C,f as A}from"./logos_facebook-C89k9jKq.js";import{c as D,C as q,F}from"./footer-DDKxpJka.js";import{B as L}from"./button-Cj2ob6HZ.js";import"./hoist-non-react-statics.cjs-DQogQWOa.js";import"./Backdrop-CY3RBVlV.js";import"./Typography-BxJAW0NT.js";import"./Box-H2O8aZmy.js";/**
+import{b as f,d as u,u as N,j as e,o as j,L as c}from"./index-CchdiQHP.js";import{c as b,a as o,e as w,d as y,F as v}from"./bible-logo-BCjmwM0b.js";import{L as P}from"./Loader-FDoDSk6I.js";import{L as k,F as l}from"./logoContainer-DCrkuiKK.js";import{g as C,f as A}from"./logos_facebook-C89k9jKq.js";import{c as D,C as q,F}from"./footer-DRQUDquF.js";import{B as L}from"./button-D9z1s4re.js";import"./hoist-non-react-statics.cjs-DQogQWOa.js";import"./Backdrop-Bswgfnfg.js";import"./Typography-BbdiCIsw.js";import"./Box-B9xTlb4A.js";/**
  * @license lucide-react v0.454.0 - ISC
  *
  * This source code is licensed under the ISC license.

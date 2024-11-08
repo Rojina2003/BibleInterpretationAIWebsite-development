@@ -358,7 +358,7 @@ function App() {
       {/* Main Content */}
       {/* <div className=""> */}
       <div className="pt-5 text-white ">
-        {messages.length > 0 ? (
+        {messages.length === 0 ? (
           <>
             <img src={bibleLogo} className="mx-auto py-3 " />
             <div className="max-w-[1000px] max-h-[450px] custom-scrollbar mx-auto ">

@@ -1,4 +1,4 @@
-import{j as e,r as a,e as f,O as g,L as i}from"./index-CImaTEcH.js";const N=({children:r})=>e.jsx("div",{className:" min-h-screen h-full bg-main-bg bg-cover px-[16px]",children:r});/**
+import{j as e,r as a,e as f,O as g,L as i}from"./index-CchdiQHP.js";const N=({children:r})=>e.jsx("div",{className:" min-h-screen h-full bg-main-bg bg-cover px-[16px]",children:r});/**
  * @license lucide-react v0.454.0 - ISC
  *
  * This source code is licensed under the ISC license.

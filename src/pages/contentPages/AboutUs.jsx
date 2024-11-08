@@ -13,11 +13,11 @@ const AboutUs = () => {
 
   return (
     <ContentWrapper>
-      <div className="grid  " >
+      <div className="" >
         <img src={bibleLogo} className="mx-auto pt-11 pb-7 " />
 
-        <div className="flex">
-          <button className="bg-[#905E5E33] h-fit p-4 text-white rounded-lg flex items-center gap-3 " onClick={() => navigate("/")}>
+        <div className="lg:flex block">
+          <button className="bg-[#905E5E33] h-fit mb-4 p-4 text-white rounded-lg flex items-center gap-3 " onClick={() => navigate("/")}>
           <MoveLeft /> Back to Home page
           </button>
           <div className=" max-h-[600px] px-5 py-3 max-w-[900px] rounded-xl bg-white  mx-auto custom-scrollbar">

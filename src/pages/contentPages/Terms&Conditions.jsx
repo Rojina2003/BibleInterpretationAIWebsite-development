@@ -15,9 +15,9 @@ const TermsAndConditions = () => {
       <div className="grid  ">
         <img src={bibleLogo} className="mx-auto pt-11 pb-7 " />
 
-        <div className="flex">
+        <div className="lg:flex">
           <button
-            className="bg-[#905E5E33] h-fit p-4 text-white rounded-lg flex items-center gap-3 "
+            className="bg-[#905E5E33] h-fit p-4 mb-5 text-white rounded-lg flex items-center gap-3 "
             onClick={() => navigate("/")}
           >
             <MoveLeft /> Back to Home page

@@ -14,14 +14,14 @@ const PrivacyPolicy = () => {
       <div className="grid  ">
         <img src={bibleLogo} className="mx-auto pt-11 pb-7 " />
 
-        <div className="flex">
+        <div className="lg:flex">
           <button
-            className="bg-[#905E5E33] h-fit p-4 text-white rounded-lg flex items-center gap-3 "
+            className="bg-[#905E5E33] h-fit p-4 mb-5  text-white rounded-lg flex items-center gap-3 "
             onClick={() => navigate("/")}
           >
             <MoveLeft /> Back to Home page
           </button>
-          <div className=" p-5 max-h-[600px] max-w-[900px] space-y-2 rounded-xl bg-white  mx-auto custom-scrollbar">
+          <div className=" p-5 max-h-[600px]  max-w-[900px] space-y-2 rounded-xl bg-white  mx-auto custom-scrollbar">
             <h1 className="text-4xl font-albert-sans py-3 font-bold ">
             Privacy Policy
             </h1>
