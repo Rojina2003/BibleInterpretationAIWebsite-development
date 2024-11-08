@@ -1,19 +1,14 @@
-import React from "react";
-import Grid from "@mui/material/Grid2";
-import {
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Link,
-  InputLabel,
-} from "@mui/material";
-import { Formik, Form } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleResetPasswordReq } from "../../redux/auth/actions";
-import "./account.css"; // Import your CSS file
+import ContentWrapper from "../../components/common/wrapper";
+import LogoContainer from "../../components/common/logoContainer";
+import FormInput from "../../components/common/formInput";
+import Button from "../../components/common/button";
+import { Link } from "react-router-dom";
+import Footer from "../../components/common/footer";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -21,51 +16,24 @@ const validationSchema = Yup.object({
     .min(6, "Password must be at least 6 characters")
     .required("New Password is required"),
   confirmPassword: Yup.string()
-    .oneOf([Yup.ref('newPassword'), null], "Passwords must match")
+    .oneOf([Yup.ref("newPassword"), null], "Passwords must match")
     .required("Confirm Password is required"),
 });
 
 const ResetPassword = () => {
-    const { registeredMail, isLoading, statusMessage, otp } = useSelector(
-        (data) => data.auth
-      );
+  const { registeredMail, otp } = useSelector((data) => data.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   return (
-    <Box className="login-section">
-      <Grid
-        container
-        sx={{
-          height: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        {/* Left Section */}
-        <Grid item xs={12} md={7} lg={7}>
-          <Box className="left-section">
-            <Link href="/">
-            <img src="./assets/images/bible-logo.png" />
-            </Link>
-            <Typography variant="h1">
-              Join the Journey of Faith and Understanding
-            </Typography>
-            <Typography variant="subtitle1" color="#EA9DA1">
-              Reset your password to regain access to personalized Bible interpretations.
-            </Typography>
-          </Box>
-        </Grid>
-
-        {/* Right Section (Reset Password Form) */}
-        <Grid item xs={12} md={5} lg={5} sm={5}
-          sx={{ ml: { xs: 0, sm: -5, md: -10, lg: -20 } }}
-        >
-          <Box className="login-box">
-            <Typography variant="h5" gutterBottom mt={2} mb={3}>
+    <ContentWrapper>
+      <div className="h-screen max-w-[1263px] flex flex-col justify-between   mx-auto">
+        <div className=" lg:space-y-0 space-y-3 lg:max-h-[400px] m-auto lg:py-0 py-10 lg:gap-x-20 lg:grid lg:grid-cols-2">
+          <LogoContainer description=" Reset your password to regain access to personalized Bible interpretations." />
+          <div className="bg-white px-4 lg:px-9 rounded-3xl w-full lg:max-w-[542px] text-black">
+            <p className="font-albert-sans font-medium text-xl lg:text-3xl lg:py-8 py-5 ">
               Reset Password
-            </Typography>
+            </p>
 
             {/* Formik for form handling */}
             <Formik
@@ -73,11 +41,11 @@ const ResetPassword = () => {
               validationSchema={validationSchema}
               onSubmit={(values, { setSubmitting }) => {
                 const data = {
-                    email: registeredMail,
-                    newPassword: values.newPassword,
-                    // password_confirmation: values.password_confirmation,
-                    otp: otp,
-                  };
+                  email: registeredMail,
+                  newPassword: values.newPassword,
+                  // password_confirmation: values.password_confirmation,
+                  otp: otp,
+                };
                 dispatch(handleResetPasswordReq(data, navigate, setSubmitting));
               }}
             >
@@ -90,28 +58,30 @@ const ResetPassword = () => {
                 touched,
                 errors,
               }) => (
-                <Form onSubmit={handleSubmit}>
+                <form className="space-y-5 " onSubmit={handleSubmit}>
                   {/* New Password Field */}
-                  <Box mb={2}>
-                    <InputLabel sx={{fontWeight: "500", color: "black"}}>New Password</InputLabel>
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      name="newPassword"
-                      type="password"
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      value={values.newPassword}
-                      error={touched.newPassword && Boolean(errors.newPassword)}
-                      helperText={touched.newPassword && errors.newPassword}
-                      className="login-field"
-                      placeholder="New password"
-                    />
-                  </Box>
+
+                  <FormInput
+                    className="col-span-2"
+                    heading="password"
+                    placeholder="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    error={errors.password}
+                    touched={touched.password}
+                  />
+                  {touched.password && errors.password && (
+                    <div className="text-red-500 text-xs col-span-2 lg:text-sm mt-1">
+                      {errors.password}
+                    </div>
+                  )}
 
                   {/* Confirm Password Field */}
-                  <Box mb={2}>
-                    <InputLabel sx={{fontWeight: "500", color: "black"}}>Confirm Password</InputLabel>
+                  {/* <div >
+                    <InputLabel sx={{ fontWeight: "500", color: "black" }}>
+                      Confirm Password
+                    </InputLabel>
                     <TextField
                       fullWidth
                       variant="outlined"
@@ -120,35 +90,51 @@ const ResetPassword = () => {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.confirmPassword}
-                      error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                      helperText={touched.confirmPassword && errors.confirmPassword}
+                      error={
+                        touched.confirmPassword &&
+                        Boolean(errors.confirmPassword)
+                      }
+                      helperText={
+                        touched.confirmPassword && errors.confirmPassword
+                      }
                       className="login-field"
                       placeholder="Confirm Password"
                     />
-                  </Box>
-
+                  </div> */}
+                  <FormInput
+                    heading="Confirm Password"
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    error={errors.confirmPassword}
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    touched={touched.confirmPassword}
+                    type="password"
+                  />
+                  {touched.confirmPassword && errors.confirmPassword && (
+                    <div className="text-red-500 text-xs lg:text-sm mt-1">
+                      {errors.confirmPassword}
+                    </div>
+                  )}
                   {/* Submit Button */}
                   <Button
-                    fullWidth
                     type="submit"
-                    className="login-button"
+                    text="RESET PASSWORD"
                     disabled={isSubmitting}
-                  >
-                    Reset Password
-                  </Button>
-                </Form>
+                  />
+                </form>
               )}
             </Formik>
 
-            <Box className="account-footer-text">
-              <Typography variant="body2">
-                Remember your password? <Link href="/login">Login</Link>
-              </Typography>
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
+            <p className="font-albert-sans py-5 text-xs lg:text-lg  ">
+              Remember your password? <Link to="/login">Login</Link>
+            </p>
+          </div>
+        </div>
+        <Footer/>
+      </div>
+    </ContentWrapper>
   );
 };
 

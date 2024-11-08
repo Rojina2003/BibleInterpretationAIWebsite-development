@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled,  } from "@mui/material/styles";//useTheme
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
+// import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
@@ -14,9 +14,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import "./sideBar.css";
+// import InboxIcon from "@mui/icons-material/MoveToInbox";
+// import MailIcon from "@mui/icons-material/Mail";
 import DeleteIcon from "@mui/icons-material/Delete";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch, useSelector } from "react-redux";
@@ -98,8 +97,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   background: "transparent",
 }));
 
+// eslint-disable-next-line react/prop-types
 export default function SideBar({ children }) {
-  const theme = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = React.useState(false);
   const [openTitleModal, setOpenTitleModal] = React.useState(false);
@@ -155,6 +154,7 @@ export default function SideBar({ children }) {
     navigate(`/`);
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const handleClickOutside = (event) => {
     if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
       handleDrawerClose();
@@ -171,7 +171,7 @@ export default function SideBar({ children }) {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [open]);
+  }, [handleClickOutside, open]);
 
   return (
     <>
@@ -310,7 +310,7 @@ export default function SideBar({ children }) {
                 textAlign: "center",
               }}
             >
-              {userSessions?.map((text, index) => (
+              {userSessions?.map((text) => (
                 <ListItem key={text?.title} disablePadding>
                   <ListItemButton
                     onClick={() => redirectToSection(text?.sessionId)}

@@ -8,8 +8,8 @@ import store from './redux/store';
 import { Provider } from 'react-redux';
 import Pages from "./routes/index.jsx";
 import { ToastContainer } from "react-toastify";
-import { ThemeProvider } from '@mui/material/styles';
-import theme from './theme/theme.js';
+// import { ThemeProvider } from '@mui/material/styles';
+// import theme from './theme/theme.js';
 
 const persistor = persistStore(store);
 
@@ -17,14 +17,14 @@ const persistor = persistStore(store);
 
 createRoot(document.getElementById("root")).render(
   <Suspense fallback={<div>Loading...</div>}>
-    <ThemeProvider theme={theme}>
+    {/* <ThemeProvider theme={theme}> */}
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
       <ToastContainer />
         <Pages />
       </PersistGate>
     </Provider>
-    </ThemeProvider>
+    {/* </ThemeProvider> */}
   </Suspense>
 );
 // If you want to start measuring performance in your app, pass a function

@@ -1,23 +1,27 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import { useSelector } from "react-redux";
-import "./chat.css";
-import {
-  Box,
-  Typography,
-  IconButton,
-  Dialog,
-  DialogTitle,
-  Button,
-  TextField,
-} from "@mui/material";
-import ThumbUpIcon from "@mui/icons-material/ThumbUp";
-import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+// import "./chat.css";
+// import {
+//   // Box,
+//   Typography,
+//   IconButton,
+//   Dialog,
+//   DialogTitle,
+//   Button,
+//   TextField,
+// } from "@mui/material";
+// import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+// import ThumbDownIcon from "@mui/icons-material/ThumbDown";
+// import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { useState } from "react";
-import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
-import CloseIcon from "@mui/icons-material/Close";
+// import DialogContent from "@mui/material/DialogContent";
+// import DialogActions from "@mui/material/DialogActions";
+// import CloseIcon from "@mui/icons-material/Close";
 import CommonToast from "../../components/toastContainer";
-import Markdown from "react-markdown";
+// import Markdown from "react-markdown";
+import { Files,ThumbsUp, ThumbsDown } from 'lucide-react';
+
 
 const ChatDisplay = ({ loader, onApplyFeedback, isAuthenticated }) => {
   const messages = useSelector((state) => state.streaming.messages);
@@ -51,49 +55,49 @@ const ChatDisplay = ({ loader, onApplyFeedback, isAuthenticated }) => {
 
   return (
     <div>
-      <Box className="chat-container">
+      <div className="flex flex-col p-5">
         {messages.map((msg, index) => (
-          <Box
+          <div
             key={index}
-            className={`message ${
+            className={`max-w-[90%] mx-[10px] p-3 rounded-2xl ${
               msg.type === "question" ? "question" : "answer"
             }`}
             display="flex"
-            alignItems="flex-start"
+            // alignItems="flex-start"
           >
             {/* Left-side icons for answer messages */}
 
             {/* Message Text */}
-            <div className="d-flex">
+            <div className="flex items-start gap-3 ">
               {msg.type === "answer" ? (
                 <img
-                  src="/assets/images/star-red.svg"
-                  className="star-red-icon"
+                  src="src\assets\img\star-red.png"
+                  className="  "
                 />
               ) : (
                 ""
               )}
-              <Box
+              <div
                 className={
                   msg.type === "answer"
                     ? "message-text"
                     : "message-text-question"
                 }
               >
-                <Typography className="answer-content">
+                <p className="answer-content">
                   {/* <FormattedText text={msg.text} /> */}
-                  <Markdown>{msg.text}</Markdown>
-                </Typography>
-              </Box>
+                  <p>{msg.text}</p>
+                </p>
+              </div>
             </div>
             {msg.type === "answer" && (
-              <Box className="answer-icons-section">
+              <div className="answer-icons-section">
                 {/* <IconButton size="small">
                     <CommentIcon fontSize="small"  className="answer-icons"/>
                   </IconButton> */}
                 {isAuthenticated ? (
                   <>
-                    <IconButton
+                    {/* <IconButton
                       size="small"
                       className="answer-icons"
                       onClick={() => {
@@ -120,20 +124,50 @@ const ChatDisplay = ({ loader, onApplyFeedback, isAuthenticated }) => {
                       }}
                     >
                       <ThumbDownIcon fontSize="small" />
-                    </IconButton>
-                  </>
+                    </IconButton> */}
+                     
+                  <button
+                    className="p-2 0 rounded-full bg-gray-300"
+                    onClick={() => {
+                      setActionData({
+                        ...msg?.metadata,
+                        rating: "THUMBS_UP",
+                        createdDate: new Date().toISOString(),
+                      });
+                      setOpenComment(true);
+                    }}
+                  >
+                        <ThumbsUp />
+
+                  </button>
+                  <button
+                    className="p-2  rounded-full "
+                    onClick={() => {
+                      setActionData({
+                        ...msg?.metadata,
+                        rating: "THUMBS_DOWN",
+                        createdDate: new Date().toISOString(),
+                      });
+                      setOpenComment(true);
+                    }}
+                  >
+                     <ThumbsDown />
+                  </button>
+                </>
+                   
                 ) : (
                   ""
                 )}
-                <IconButton size="small" className="answer-icons">
-                  <ContentCopyIcon
+                <button  className="p-2 rounded-full " onClick={() => copyToClipboard(msg?.text)}>
+                  {/* <ContentCopyIcon
                     fontSize="small"
-                    onClick={() => copyToClipboard(msg?.text)}
-                  />
-                </IconButton>
-              </Box>
+                   
+                  /> */}
+                   <Files />
+                </button>
+              </div>
             )}
-          </Box>
+          </div>
         ))}
 
         {/* {loader && (
@@ -157,8 +191,8 @@ const ChatDisplay = ({ loader, onApplyFeedback, isAuthenticated }) => {
             </Box>
           </Backdrop>
         )} */}
-      </Box>
-      <Dialog open={openComment} onClose={handleClose} maxWidth="sm" fullWidth>
+      </div>
+      {/* <Dialog open={openComment} onClose={handleClose} maxWidth="sm" fullWidth>
         <DialogTitle
           sx={{
             display: "flex",
@@ -210,7 +244,31 @@ const ChatDisplay = ({ loader, onApplyFeedback, isAuthenticated }) => {
             Send
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> */}
+        {openComment && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+          <div className=" rounded-lg p-6 w-full max-w-md">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-lg font-semibold">Comment</h2>
+              <button onClick={handleClose} className="text-gray-400 hover:text-gray-600">✖️</button>
+            </div>
+            <textarea
+              rows="4"
+              placeholder="Enter your comment"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+            />
+            <button
+              onClick={onCommentSave}
+              className={`mt-4 w-full py-2 px-4 rounded-lg text-white ${comment ? "bg-red-500 hover:bg-red-600" : "bg-gray-300 cursor-not-allowed"}`}
+              disabled={!comment}
+            >
+              Send
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

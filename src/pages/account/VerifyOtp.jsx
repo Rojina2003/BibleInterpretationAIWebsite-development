@@ -1,24 +1,21 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 import {
   Dialog,
   DialogContent,
-  Typography,
-  Button,
-  Box,
   Link,
-  TextField,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleForgotPasswordReq, onVerifyOTP } from "../../redux/auth/actions";
 import Loader from "../../components/Loader";
-import "./account.css"; // Import CSS for the custom styles
-
+import Button from "../../components/common/button";
 const VerifyEmailDialog = ({ open, onClose, email }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [otp, setOtp] = useState(new Array(4).fill(""));
-  const { registeredMail, isForgotPassword, isLoading } = useSelector((data) => data.auth);
+  const { registeredMail, isForgotPassword, isLoading } = useSelector(
+    (data) => data.auth
+  );
 
   const inputRefs = otp.map(() => useRef(null)); // Dynamic refs for each input field
 
@@ -63,66 +60,65 @@ const VerifyEmailDialog = ({ open, onClose, email }) => {
 
   return (
     <>
-      <Dialog open={true} fullWidth maxWidth="xs" PaperProps={{ sx: { borderRadius: 4 } }}>
+      <Dialog
+        open={true}
+        fullWidth
+        maxWidth="xs"
+        PaperProps={{ sx: { borderRadius: 4 } }}
+      >
         <DialogContent>
-          <Box textAlign="">
-            <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
-              Verify your email
-            </Typography>
-            <Typography variant="body2" sx={{ mb: 3 }}>
-              We sent a code to <strong>{email}</strong>
-            </Typography>
+          <div className="items-center mx-auto flex flex-col gap-4 font-albert-sans">
+            <p className="font-medium text-lg">Verify your email</p>
+            <p>
+              We sent a code to <span className="font-bold">{email}</span>
+            </p>
 
-            <Box display="flex" className="otp-container">
+            <div className="flex  space-x-2">
               {otp.map((digit, index) => (
-                <TextField
+                <input
                   key={index}
                   value={digit}
                   onChange={(e) => handleChange(index, e)}
                   onKeyDown={(e) => handleKeyDown(e, index)}
-                  inputRef={inputRefs[index]}
-                  inputProps={{
-                    maxLength: 1,
-                    style: { textAlign: "center", fontSize: "24px" },
-                  }}
-                  sx={{
-                    width: 60,
-                    height: 58,
-                    borderRadius: "8px",
-                    "& input": { padding: "0", height: 56, width: 36 },
-                    "& fieldset": { border: "1px solid #d1d1d1" },
-                    "&:focus-within fieldset": { borderColor: "red" },
-                  }}
+                  ref={inputRefs[index]} // Using ref for input focus handling
+                  maxLength={1}
+                  className="w-14 h-14 text-center text-2xl border border-gray-300 rounded-lg focus:border-red-500 outline-none"
                   type="text"
                 />
               ))}
-            </Box>
+            </div>
 
-            <Box mt={2}>
-              <Typography variant="body2" color="textSecondary">
-                Didn’t get a code?{" "}
-                <Link sx={{cursor:'pointer'}}  onClick={() => dispatch(handleForgotPasswordReq({email:registeredMail,is_forgot_password:isForgotPassword ? isForgotPassword : false},navigate,null))}>
-                  Click to resend
-                </Link>
-              </Typography>
-            </Box>
+            <p>
+              Didn’t get a code?{" "}
+              <Link
+                onClick={() =>
+                  dispatch(
+                    handleForgotPasswordReq(
+                      {
+                        email: registeredMail,
+                        is_forgot_password: isForgotPassword
+                          ? isForgotPassword
+                          : false,
+                      },
+                      navigate,
+                      null
+                    )
+                  )
+                }
+              >
+                Click to resend
+              </Link>
+            </p>
 
             <Button
-              fullWidth
-              variant="contained"
-              sx={{
-                backgroundColor: "red",
-                color: "white",
-                mt: 4,
-                borderRadius: 2,
-                padding: "10px 0",
-              }}
+              type="submit"
+              text="Continue"
               disabled={otp.join("").length !== 4}
               onClick={handleSubmit}
             >
               Continue
             </Button>
-          </Box>
+          </div>
         </DialogContent>
       </Dialog>
       {isLoading && <Loader open={isLoading} />}

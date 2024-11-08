@@ -1,23 +1,18 @@
-import React from "react";
-import {
-  Grid,
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Link,
-  Checkbox,
-  FormControlLabel,
-  InputLabel,
-} from "@mui/material";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { Formik } from "formik"; //, Form, Field, ErrorMessage
 import * as Yup from "yup";
-import "./account.css"; // Import your CSS
-import { CheckBox } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleRegisterReq } from "../../redux/auth/actions";
 import Loader from "../../components/Loader";
+import FormInput from "../../components/common/formInput";
+import LogoContainer from "../../components/common/logoContainer";
+import googleIcon from "../../assets/img/devicon_google.png";
+import fbIcon from "../../assets/img/logos_facebook.png";
+import { Check } from "lucide-react";
+import { Link } from "react-router-dom";
+import ContentWrapper from "../../components/common/wrapper";
+import Button from "../../components/common/button";
+import Footer from "../../components/common/footer";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -37,245 +32,241 @@ const validationSchema = Yup.object({
     .required("Confirm Password is required"),
 });
 
-const Signup = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isLoading } = useSelector((state) => state.auth);
 
   return (
-    <>
-      <Box className="login-section">
-        <Grid
-          container
-          sx={{
-            height: "100%",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-          className="content-section"
-        >
-          {/* Left Section */}
-          <Grid item xs={12} md={6} lg={5}>
-            <Box className="left-section">
-             <Link href="/">
-              <img src="./assets/images/bible-logo.png" />
-              </Link>
-              <Typography variant="h1">
-                Join the Journey of Faith and Understanding
-              </Typography>
-              <Typography variant="body1">
-                Create an account to access personalized Bible interpretations
-                and deepen your connection with scripture.
-              </Typography>
-            </Box>
-          </Grid>
+    <ContentWrapper>
+      <div className="min-h-screen h-full max-w-[1275px]  lg:grid grid-cols-2  lg:gap-x-20 mx-auto items-center relative ">
+        <LogoContainer description="Create an account to access personalized Bible interpretations and deepen your connection with scripture." />
+        <div className="bg-white mt-4 py-5 mx-auto rounded-3xl font-albert-sans lg:max-w-[542px]  ">
+          <div className="lg:max-h-[500px] lg:px-9 px-5 h-full  custom-scrollbar">
+            <h2 className="font-medium lg:text-3xl text-base pb-6 ">Sign up</h2>
+            <Formik
+              initialValues={{
+                firstName: "",
+                secondName: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+                termsAgree: undefined,
+              }}
+              validationSchema={validationSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                dispatch(handleRegisterReq(values, navigate, setSubmitting));
+              }}
+            >
+              {({
+                isSubmitting,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                setFieldValue,
+                values,
+                touched,
+                errors,
+              }) => (
+                <form onSubmit={handleSubmit}>
+                  <div className="md:grid  gap-5 lg:space-y-0 space-y-4 grid-cols-2">
+                    <div className="pt-4 lg:pt-0 ">
+                      <FormInput
+                        heading="First Name"
+                        type="text"
+                        placeholder="First Name"
+                        name="firstName"
+                        value={values.firstName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.firstName}
+                        touched={touched.firstName}
+                      />
+                      {touched.firstName && errors.firstName && (
+                        <div className="text-red-500 text-xs lg:text-sm mt-1">
+                          {errors.firstName}
+                        </div>
+                      )}
+                    </div>
+                    <div>
+                      <FormInput
+                        heading="Second Name"
+                        type="text"
+                        placeholder="Second Name"
+                        name="secondName"
+                        value={values.secondName}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        error={errors.secondName}
+                        touched={touched.secondName}
+                      />
+                      {touched.secondName && errors.secondName && (
+                        <div className="text-red-500 text-xs lg:text-sm mt-1">
+                          {errors.secondName}
+                        </div>
+                      )}
+                    </div>
 
-          {/* Right Section (Sign-Up Form) */}
-          <Grid item xs={12} md={6} lg={4}>
-            <Box className="login-box">
-              <Typography variant="h5" gutterBottom>
-                Sign up
-              </Typography>
-
-              {/* Formik for form handling */}
-              <Formik
-                initialValues={{
-                  firstName: "",
-                  secondName: "",
-                  email: "",
-                  password: "",
-                  confirmPassword: "",
-                  termsAgree: undefined,
-                }}
-                validationSchema={validationSchema}
-                onSubmit={(values, { setSubmitting }) => {
-                  // delete values?.confirmPassword; // or use => delete test['blue'];
-
-                  dispatch(handleRegisterReq(values, navigate, setSubmitting));
-                }}
-              >
-                {({
-                  isSubmitting,
-                  handleSubmit,
-                  handleChange,
-                  handleBlur,
-                  setFieldValue,
-                  values,
-                  touched,
-                  errors,
-                }) => (
-                  <Form onSubmit={handleSubmit}>
-                    {/* First Name Field */}
-                    <Grid spacing={2} container>
-                      <Grid item xs={12} md={6} lg={6}>
-                        <InputLabel sx={{fontWeight: "500", color: "black"}}>First Name</InputLabel>
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          // label="First name"
-                          name="firstName"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.firstName}
-                          error={touched.firstName && Boolean(errors.firstName)}
-                          helperText={touched.firstName && errors.firstName}
-                          className="login-field"
-                          placeholder="First Name"
-                        />
-                      </Grid>
-                      <Grid item xs={12} md={6} lg={6}>
-                        <InputLabel sx={{fontWeight: "500", color: "black"}}>Last Name</InputLabel>
-
-                        {/* Second Name Field */}
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          // label="Second name"
-                          name="secondName"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.secondName}
-                          error={
-                            touched.secondName && Boolean(errors.secondName)
-                          }
-                          helperText={touched.secondName && errors.secondName}
-                          className="login-field"
-                          placeholder="Last Name"
-                        />
-                      </Grid>
-                    </Grid>
-                    {/* Email Field */}
-                    <InputLabel sx={{fontWeight: "500", color: "black"}}>Email</InputLabel>
-
-                    <TextField
-                      fullWidth
-                      variant="outlined"
-                      // label="Email"
-                      name="email"
+                    <FormInput
+                      className="col-span-2"
+                      heading="Email"
+                      placeholder="Email"
                       type="email"
+                      name="email"
                       onChange={handleChange}
                       onBlur={handleBlur}
                       value={values.email}
-                      error={touched.email && Boolean(errors.email)}
-                      helperText={touched.email && errors.email}
-                      className="login-field"
-                      placeholder="Email Address"
+                      error={errors.email}
+                      touched={touched.email}
                     />
-                    <Grid spacing={2} container>
-                      <Grid item xs={12} md={6} lg={6}>
-                        <InputLabel sx={{fontWeight: "500", color: "black"}}>Password</InputLabel>
-
-                        {/* Password Field */}
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          // label="Password"
-                          name="password"
-                          type="password"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.password}
-                          error={touched.password && Boolean(errors.password)}
-                          helperText={touched.password && errors.password}
-                          className="login-field"
-                          placeholder="Password"
-                        />
-                      </Grid>
-
-                      {/* Confirm Password Field */}
-                      <Grid item xs={12} md={6} lg={6}>
-                        <InputLabel sx={{fontWeight: "500", color: "black"}}>Confirm Password</InputLabel>
-
-                        <TextField
-                          fullWidth
-                          variant="outlined"
-                          // label="Confirm Password"
-                          name="confirmPassword"
-                          type="password"
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          value={values.confirmPassword}
-                          error={
-                            touched.confirmPassword &&
-                            Boolean(errors.confirmPassword)
-                          }
-                          helperText={
-                            touched.confirmPassword && errors.confirmPassword
-                          }
-                          className="login-field"
-                          placeholder="Confirm Password"
-                        />
-                      </Grid>
-                    </Grid>
-                    {touched.termsAgree && Boolean(errors.termsAgree) ? (
-                      <div style={{ color: "red" }}>{errors?.termsAgree}</div>
-                    ) : (
-                      ""
+                    {touched.email && errors.email && (
+                      <div className="text-red-500 text-xs col-span-2 lg:text-sm mt-1">
+                        {errors.email}
+                      </div>
                     )}
+                    <div>
+                      <FormInput
+                        heading="Password"
+                        placeholder="Password"
+                        name="password"
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        value={values.password}
+                        error={errors.password}
+                        touched={touched.password}
+                      />
+                      {touched.password && errors.password && (
+                        <div className="text-red-500 text-xs lg:text-sm mt-1">
+                          {errors.password}
+                        </div>
+                      )}
+                    </div>
 
-                    {/* Terms & Privacy Policy */}
-
-                    {/* Submit Button */}
-                    
-                    <Box className="footer-text">
-                      <Typography variant="body2" align="left">
-                        By clicking "Create account" above, you acknowledge that
-                        you will receive updates from the bibleinterpretation
-                        team and that you have read, understand, and agreed to
-                        bibleinterpretation's{" "}
-                        <Link href="/terms-and-conditions">Terms & Conditions</Link> and{" "}
-                        <Link href="/privacy-policy">Privacy Policy</Link>.
-                      </Typography>
-                    </Box>
-
-                    <FormControlLabel
-                      className="agree-checkbox-label"
-                      control={
-                        <Checkbox
-                          name="termsAgree"
-                          className="agree-checkbox"
-                          error={
-                            touched.termsAgree && Boolean(errors.termsAgree)
-                          }
-                          helperText={touched.termsAgree && errors.termsAgree}
-                          onChange={(e) => {
-                            setFieldValue("termsAgree", e.target?.checked);
-                          }}
-                        />
-                      }
-                      label="I agree to terms and conditions"
-                    />
+                    <div>
+                      <FormInput
+                        heading="Confirm Password"
+                        placeholder="Confirm Password"
+                        name="confirmPassword"
+                        error={errors.confirmPassword}
+                        touched={touched.confirmPassword}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                      />
+                      {touched.confirmPassword && errors.confirmPassword && (
+                        <div className="text-red-500 text-xs lg:text-sm mt-1">
+                          {errors.confirmPassword}
+                        </div>
+                      )}
+                    </div>
                     <Button
-                      fullWidth
                       type="submit"
-                      className="login-button"
+                      text="Create an account"
                       disabled={isSubmitting}
-                    >
-                      Create an account
-                    </Button>
-                  </Form>
-                )}
-              </Formik>
-
-              <Box className="account-footer-text">
-                <Typography variant="body2" className="label-section">
-                  Already have an account?
-                </Typography>
-                <Button
-                  variant="outlined"
-                  className="footer-redirect-btn"
-                  href="/login"
+                    />
+                    <p className="col-span-2 font-albert-sans font-medium text-xs lg:text-sm text-[#5D5D5D] ">
+                      By clicking “Create account” above, you knowledge that you
+                      will receive updates from the bibleinterpretation team and
+                      that you have read, understand, and agreed to
+                      bibleinterpretation’s
+                      <Link
+                        className="!text-[#5D5D5D] underline underline-offset-8"
+                        to="/terms-and-conditions"
+                      >
+                        {" "}
+                        Terms & Conditions{" "}
+                      </Link>
+                      and{" "}
+                      <Link
+                        className="!text-[#5D5D5D] underline underline-offset-8 "
+                        to="/privacy-policy"
+                      >
+                        Privacy Policy
+                      </Link>
+                    </p>
+                    <div className="col-span-2  items-center">
+                      <input
+                        type="checkbox"
+                        id="termsAgree"
+                        name="termsAgree"
+                        className="hidden"
+                        onChange={(e) => {
+                          setFieldValue("termsAgree", e.target.checked);
+                        }}
+                        onBlur={handleBlur}
+                      />
+                      <label
+                        htmlFor="termsAgree"
+                        className="flex items-center cursor-pointer"
+                      >
+                        <span
+                          className={`w-5 h-5 px-3 py-3 border border-gray-400 flex items-center justify-center rounded ${
+                            values.termsAgree ? "bg-black" : "bg-white"
+                          }`}
+                        >
+                          {values.termsAgree && (
+                            <span className="text-white text-lg font-bold">
+                              <Check />
+                            </span>
+                          )}
+                        </span>
+                        <span
+                          className={`ml-2 text-sm lg:text-sm ${
+                            values.termsAgree ? "text-black" : "text-[#5D5D5D]"
+                          }`}
+                        >
+                          I agree to terms and conditions
+                        </span>
+                      </label>
+                      {touched.termsAgree && Boolean(errors.termsAgree) ? (
+                        <div className="text-red-600 text-sm font-albert-sans col-span-2">
+                          {errors?.termsAgree}
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </div>
+                </form>
+              )}
+            </Formik>
+            <p className="flex items-center w-full my-5 mx-auto">
+              <span className="flex-grow border-b border-[#999999]"></span>
+              <span className="mx-4 text-[#999999]">or</span>
+              <span className="flex-grow border-t border-[#999999]"></span>
+            </p>
+            <button className="border-black w-full rounded-3xl border mb-3 py-2 ">
+              <h1 className="flex justify-center text-[#545555] items-center gap-4">
+                <img className="h-fit" src={googleIcon} /> Sign up with Google
+              </h1>
+            </button>
+            <button className="border-black w-full rounded-3xl border mb-3 py-2 ">
+              <h1 className="flex justify-center text-[#545555] items-center gap-4">
+                <img className="h-fit" src={fbIcon} />
+                Sign up with Facebook
+              </h1>
+            </button>
+            <div className="flex justify-between items-center">
+              <p className="font-albert-sans font-bold text-xs lg:text-lg  ">
+                Already have an account?
+              </p>
+              <button className="border-[1px] lg:py-3 px-7 rounded-xl w-fit border-black ">
+                <Link
+                  to="/login"
+                  className="font-medium font-albert-sans !no-underline  !text-black text-sm lg:text-lg"
                 >
                   Log in
-                </Button>
-              </Box>
-            </Box>
-          </Grid>
-        </Grid>
-      </Box>
+                </Link>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div className="col-span-2 bg-transparent">
+          <Footer />
+        </div>
+      </div>
       {isLoading ? <Loader open={isLoading} message="" /> : ""}
-    </>
+    </ContentWrapper>
   );
 };
 
-export default Signup;
+export default SignUp;

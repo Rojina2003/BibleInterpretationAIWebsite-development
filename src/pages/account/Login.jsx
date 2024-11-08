@@ -1,26 +1,19 @@
-import React, { useState } from "react";
-import Grid from "@mui/material/Grid2";
-import {
-  TextField,
-  Button,
-  Box,
-  Typography,
-  Link,
-  InputLabel,
-  IconButton,
-  InputAdornment,
-  
-} from "@mui/material";
-import { Formik, Form, Field, ErrorMessage } from "formik";
+import { useState } from "react";
+import FormInput from "../../components/common/formInput";
+import { Link } from "react-router-dom";
+import { Formik } from "formik"; //Field, ErrorMessage
 import * as Yup from "yup";
-import Visibility from "@mui/icons-material/Visibility";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleLoginReq } from "../../redux/auth/actions";
-import "./account.css"; // Import your CSS file
+import { EyeOff, Eye } from "lucide-react";
 import Loader from "../../components/Loader";
-
+import ContentWrapper from "../../components/common/wrapper";
+import Button from "../../components/common/button";
+import googleIcon from "../../assets/img/devicon_google.png";
+import fbIcon from "../../assets/img/logos_facebook.png";
+import LogoContainer from "../../components/common/logoContainer";
+import Footer from "../../components/common/footer";
 // Validation schema using Yup
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -32,13 +25,13 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage = () => {
-  const { isAuthenticated,isLoading } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.auth); //isAuthenticated,
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (values, setSubmitting) => {
-      dispatch(handleLoginReq(values,navigate,setSubmitting))
+    dispatch(handleLoginReq(values, navigate, setSubmitting));
   };
 
   const handleClickShowPassword = () => {
@@ -46,73 +39,36 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-    <Box className="login-section">
-      <Grid
-        container
-        sx={{
-          height: "100%",
-          alignItems: "center",
-          justifyContent: "center",
-          width: "100%",
-        }}
-        className="content-section"
-      >
-        {/* Left Section */}
-        <Grid item="true" xs={12} md={7} lg={7} sm={7}>
-          <Box className="left-section">
-            {/* <Box
-              display="flex"
-              flexDirection="column"
-              justifyContent="center"
-              alignItems="flex-start"
-              width="fit-content"
-            > */}
-             <Link href="/">
-            <img style={{ width: '150px', marginBottom: '20px' }} src="./assets/images/bible-logo.png" alt="Bible Logo" />
-            </Link>
-            <Typography fontWeight={300} fontSize={24}>Bible Interpretation AI</Typography>
-            {/* </Box> */}
-            <Typography variant="h1">
-              Join the Journey of Faith and Understanding
-            </Typography>
-            <Typography variant="subtitle1" color="#EA9DA1">
-              Create an account to access personalized Bible interpretations and
-              deepen your connection with scripture.
-            </Typography>
-          </Box>
-        </Grid>
-
-        {/* Right Section (Login Form) */}
-        <Grid item="true" xs={12} md={5} lg={5} sm={5}
-          sx={{ ml: { xs: 0, sm: -5, md: -10, lg: -20 } }}
-        >
-          <Box className="login-box">
-            <Typography variant="h5" mb={3} gutterBottom>
-              Log in
-            </Typography>
-
-            {/* Formik for form handling */}
-            <Formik
-              initialValues={{ email: "", password: "" }}
-              validationSchema={validationSchema}
-              onSubmit={(values, { setSubmitting }) => {
-                handleSubmit(values, setSubmitting);
-              }}
-            >
-              {({
-                isSubmitting,
-                handleSubmit,
-                handleChange,
-                handleBlur,
-                values,
-                touched,
-                errors,
-              }) => (
-                <Form onSubmit={handleSubmit}>
-                  {/* Email Field */}
-                  <>
-                    <InputLabel sx={{fontWeight: "500", color: "black"}}>Email</InputLabel>
+    <ContentWrapper>
+      <div className="min-h-screen h-full max-w-[1263px] mx-auto lg:space-y-0 space-y-3 gap-x-5 items-center  pt-5 lg:gap-x-20 lg:grid grid-cols-2 ">
+        <LogoContainer description="Create an account to access personalized Bible interpretations and deepen your connection with scripture." />
+        <div className="bg-white px-4 lg:px-9 rounded-3xl w-full lg:max-w-[542px] text-black">
+          <p className="font-albert-sans font-medium text-xl lg:text-3xl  py-5 ">
+            Log in
+          </p>
+          {/* Formik for form handling */}
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting }) => {
+              handleSubmit(values, setSubmitting);
+            }}
+          >
+            {({
+              isSubmitting,
+              handleSubmit,
+              handleChange,
+              handleBlur,
+              values,
+              touched,
+              errors,
+            }) => (
+              <form className="lg:space-y-5 space-y-2" onSubmit={handleSubmit}>
+                {/* Email Field */}
+                <>
+                  {/* <InputLabel sx={{ fontWeight: "500", color: "black" }}>
+                      Email
+                    </InputLabel>
                     <TextField
                       fullWidth
                       variant="outlined"
@@ -125,12 +81,29 @@ const LoginPage = () => {
                       helperText={touched.email && errors.email}
                       className="login-field"
                       placeholder="Email address"
-                    />
-                  </>
+                    /> */}
+                  <FormInput
+                    className="col-span-2"
+                    heading="Email"
+                    placeholder="Email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                    error={errors.email}
+                    touched={touched.email}
+                  />
+                  {touched.email && errors.email && (
+                    <div className="text-red-500 text-xs col-span-2 lg:text-sm mt-1">
+                      {errors.email}
+                    </div>
+                  )}
+                </>
 
-                  {/* Password Field with Toggle Visibility */}
-                  <div className="w-100">
-                    <InputLabel sx={{fontWeight: "500", color: "black"}}>Password</InputLabel>
+                {/* Password Field with Toggle Visibility */}
+                {/* <div className="w-100">
+                    <InputLabel sx={{ fontWeight: "500", color: "black" }}>
+                      Password
+                    </InputLabel>
                     <TextField
                       fullWidth
                       variant="outlined"
@@ -149,50 +122,94 @@ const LoginPage = () => {
                               onClick={handleClickShowPassword}
                               edge="end"
                             >
-                              {showPassword ? <VisibilityOff /> : <Visibility />}
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
                             </IconButton>
                           </InputAdornment>
                         ),
                       }}
                       placeholder="Password"
                     />
+                  </div> */}
+                <div>
+                  <label className="font-albert-sans font-medium text-xs lg:text-sm mb-2 ">
+                    Password
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      name="password"
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      value={values.password}
+                      className="bg-[#F1F0EE] rounded-lg w-full py-2 px-4  "
+                      placeholder="Password"
+                    />
+                    <button
+                      type="button"
+                      onClick={handleClickShowPassword}
+                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500"
+                    >
+                      {showPassword ? <EyeOff /> : <Eye />}
+                    </button>
                   </div>
-
-                  <Box className="forgot-link">
-                    <Link href="/forgotten-password">Forgot Password?</Link>
-                  </Box>
-
-                  {/* Submit Button */}
-                  <Button
-                    fullWidth
-                    type="submit"
-                    className="login-button"
-                    disabled={isSubmitting}
-                  >
-                    Login
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-
-            <Box className="account-footer-text">
-              <Typography variant="body2" className="label-section">
-                Don’t have an account?
-              </Typography>
-              <Button
-                variant="contained"
-                className="footer-redirect-btn"
-                href="/sign-up"
+                  {touched.password && errors.password && (
+                    <div className="text-red-500 text-xs mt-1">
+                      {errors.password}
+                    </div>
+                  )}
+                </div>
+                <Link className="flex justify-end" to="/forgotten-password">
+                  Forgot Password?
+                </Link>
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  text="Create an account"
+                  disabled={isSubmitting}
+                />
+              </form>
+            )}
+          </Formik>
+          <p className="flex items-center w-full my-5 mx-auto">
+            <span className="flex-grow border-b border-[#999999]"></span>
+            <span className="mx-4 text-[#999999]">or</span>
+            <span className="flex-grow border-t border-[#999999]"></span>
+          </p>
+            <button className="border-black w-full rounded-3xl border mb-3 py-2 ">
+              <h1 className="flex justify-center text-[#545555] items-center gap-4">
+                <img className="h-fit" src={googleIcon} /> Sign up with Google
+              </h1>
+            </button>
+            <button className="border-black w-full rounded-3xl border py-2 ">
+              <h1 className="flex justify-center text-[#545555] items-center gap-4">
+                <img className="h-fit" src={fbIcon} />
+                Sign up with Facebook
+              </h1>
+            </button>
+          <div className="flex justify-between py-5 items-center">
+            <p className="font-albert-sans font-bold text-xs lg:text-lg  ">
+              Already have an account?
+            </p>
+            <button className="border-[1px] lg:py-3 px-7 lg:rounded-xl rounded-md w-fit border-black ">
+              <Link
+                to="/sign-up"
+                className="font-medium font-albert-sans !no-underline whitespace-nowrap !text-black text-sm lg:text-lg"
               >
                 Sign up
-              </Button>
-            </Box>
-          </Box>
-        </Grid>
-      </Grid>
-    </Box>
-    {isLoading ? <Loader open={isLoading} message="" /> : ""}
-    </>
+              </Link>
+            </button>
+          </div>
+        </div>
+        <div className="col-span-2 bg-transparent">
+          <Footer />
+        </div>
+      </div>
+      {isLoading ? <Loader open={isLoading} message="" /> : ""}
+    </ContentWrapper>
   );
 };
 
