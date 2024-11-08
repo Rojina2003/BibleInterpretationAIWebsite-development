@@ -7,23 +7,22 @@
 
 
 
-/* Add this to your CSS file or inside a <style> tag */
 .custom-scrollbar {
-    overflow-y: auto; /* Enable vertical scrolling */
+    overflow-y: auto; 
   }
   
   .custom-scrollbar::-webkit-scrollbar {
-    width: 8px; /* Width of the scrollbar */
+    width: 8px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: #f1f1f1; /* Background of the scrollbar track */
-    border-radius: 10px; /* Rounded corners for the track */
+    background: #f1f1f1; 
+    border-radius: 10px; 
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #888; 
-    border-radius: 10px; /* Rounded corners for the thumb */
+    border-radius: 10px;
   }
   
   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
