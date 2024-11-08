@@ -1,0 +1,1 @@
+import{r}from"./index-CvyB-FPv.js";const u=typeof window<"u"?r.useLayoutEffect:r.useEffect;function n(e){const t=r.useRef(e);return u(()=>{t.current=e}),r.useRef((...s)=>(0,t.current)(...s)).current}function f(e){try{return e.matches(":focus-visible")}catch{}return!1}export{n as a,f as i,u};

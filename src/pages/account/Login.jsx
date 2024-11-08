@@ -12,7 +12,8 @@ import ContentWrapper from "../../components/common/wrapper";
 import Button from "../../components/common/button";
 import googleIcon from "../../assets/img/devicon_google.png";
 import fbIcon from "../../assets/img/logos_facebook.png";
-import LeftContainer from "../../components/common/leftContainer";
+import LogoContainer from "../../components/common/logoContainer";
+import Footer from "../../components/common/footer";
 // Validation schema using Yup
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -24,7 +25,7 @@ const validationSchema = Yup.object({
 });
 
 const LoginPage = () => {
-  const { isAuthenticated, isLoading } = useSelector((state) => state.auth);
+  const { isLoading } = useSelector((state) => state.auth); //isAuthenticated,
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -39,12 +40,12 @@ const LoginPage = () => {
 
   return (
     <ContentWrapper>
-      <div className="lg:h-screen h-full max-w-[1263px] mx-auto lg:space-y-0 space-y-3 items-center gap-5 lg:py-0 py-10 lg:gap-20 grid lg:grid-cols-2 ">
-      <LeftContainer
-       description="Create an account to access personalized Bible interpretations and deepen your connection with scripture."
-       />
+      <div className="min-h-screen h-full max-w-[1263px] mx-auto lg:space-y-0 space-y-3 gap-x-5 items-center  pt-5 lg:gap-x-20 lg:grid grid-cols-2 ">
+        <LogoContainer description="Create an account to access personalized Bible interpretations and deepen your connection with scripture." />
         <div className="bg-white px-4 lg:px-9 rounded-3xl w-full lg:max-w-[542px] text-black">
-          <p className="font-albert-sans font-medium text-xl lg:text-3xl lg:py-8 py-5 ">Log in</p>
+          <p className="font-albert-sans font-medium text-xl lg:text-3xl  py-5 ">
+            Log in
+          </p>
           {/* Formik for form handling */}
           <Formik
             initialValues={{ email: "", password: "" }}
@@ -178,8 +179,7 @@ const LoginPage = () => {
             <span className="mx-4 text-[#999999]">or</span>
             <span className="flex-grow border-t border-[#999999]"></span>
           </p>
-          <div className="space-y-4 pb-4">
-            <button className="border-black w-full rounded-3xl border py-2 ">
+            <button className="border-black w-full rounded-3xl border mb-3 py-2 ">
               <h1 className="flex justify-center text-[#545555] items-center gap-4">
                 <img className="h-fit" src={googleIcon} /> Sign up with Google
               </h1>
@@ -190,7 +190,6 @@ const LoginPage = () => {
                 Sign up with Facebook
               </h1>
             </button>
-          </div>
           <div className="flex justify-between py-5 items-center">
             <p className="font-albert-sans font-bold text-xs lg:text-lg  ">
               Already have an account?
@@ -204,6 +203,9 @@ const LoginPage = () => {
               </Link>
             </button>
           </div>
+        </div>
+        <div className="col-span-2 bg-transparent">
+          <Footer />
         </div>
       </div>
       {isLoading ? <Loader open={isLoading} message="" /> : ""}

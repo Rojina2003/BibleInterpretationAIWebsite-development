@@ -1,41 +1,46 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useRef, useState } from "react";
-import "./chat.css";
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  Grid,
-  Link,
-  TextField,
-  Typography,
-  IconButton,
-} from "@mui/material";
-import AttachFileIcon from "@mui/icons-material/AttachFile";
-import MicIcon from "@mui/icons-material/Mic";
+import ContentWrapper from "../../components/common/wrapper";
+
+// import {
+//   Box,
+//   Button,
+//   // Card,
+//   // CardContent,
+//   // Grid,
+//   Link,
+//   TextField,
+//   Typography,
+//   // IconButton,
+// } from "@mui/material";
+// import AttachFileIcon from "@mui/icons-material/AttachFile";
+// import MicIcon from "@mui/icons-material/Mic";
 import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { FlowiseClient } from "flowise-sdk";
+import { Mic, Paperclip } from "lucide-react";
 import ChatDisplay from "./Messages";
 import {
   addMessage,
   appendToLastMessage,
   listChatMessages,
   setChatId,
+  clearMessageWhenLogin,
 } from "../../redux/chats/action";
 import { AssemblyAI } from "assemblyai";
-import { MicOff } from "@mui/icons-material";
+// import { MicOff } from "@mui/icons-material";
 import SideBar from "../../components/sidebar/SideBar";
-import Loader from "../../components/Loader";
-import { addChatMessageFeedBackAPI } from "../../apis/services/chatApi";
+// import Loader from "../../components/Loader";
+// import { addChatMessageFeedBackAPI } from "../../apis/services/chatApi";
 import AddTitleModal from "../../components/Dialog/AddTitleModal";
 import { setSessionId } from "../../redux/auth/actions";
 import CommonToast from "../../components/toastContainer";
 import bibleLogo from "../../assets/bible-logo.png";
 import useWindowSize from "../../hooks/useWindowSize";
-
+import Footer from "../../components/common/footer";
+import { useNavigate } from "react-router-dom";
 const validationSchema = yup.object({
   question: yup
     .string()
@@ -46,10 +51,8 @@ const mimeType = "audio/webm";
 
 function App() {
   const navigate = useNavigate();
-  const { isAuthenticated, userSessions, sessionId } = useSelector(
-    (state) => state.auth
-  );
-
+  const { isAuthenticated, sessionId } = useSelector((state) => state.auth);
+  //userSessions,
   const { messages, chatMessagesLoading, sessionTitle } = useSelector(
     (state) => state.streaming
   );
@@ -59,12 +62,12 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [recording, setRecording] = useState(false);
   const [audioChunks, setAudioChunks] = useState([]);
-  const mediaRecorderRef = useRef(null);
+  // const mediaRecorderRef = useRef(null);
   const bottomRef = useRef(null);
-  const [permission, setPermission] = useState(false);
+  const [, setPermission] = useState(false);
   const [stream, setStream] = useState(null);
   const mediaRecorder = useRef(null);
-  const [audio, setAudio] = useState(null);
+  const [, setAudio] = useState(null);
   const location = useLocation();
   const [openTitleModal, setOpenTitleModal] = useState(false);
   const [newSessionTitle, setNewSessionTitle] = useState("");
@@ -74,49 +77,48 @@ function App() {
   const cardData = [
     {
       key: 1,
-      title: "Family: Identify yourself and your specific need",
       subTitle:
-        "How can the Bible help me improve communication and promote unity in my struggling family?",
+        " Dive into scripture with AI-powered verse-by-verse insights, guiding you to a deeper understanding and growth in faith.",
     },
     {
       key: 2,
-      title: "Children: Faith formation by parents",
       subTitle:
-        "How can I use biblical examples to help my children understand the significance of faith and prayer?",
+        "Unlock the meaning of scripture with AI-driven verse-by-verse interpretations, your trusted companion for spiritual growth.",
     },
     {
       key: 3,
-      title:
-        "Catechism Teachers: Aids like role-playing, assignments, and games..",
       subTitle:
-        "Prepare a quiz comprising ten questions about the Ten Commandments for my fifth-grade students?",
+        "Experience scripture in a new way with AI-guided interpretations, designed to deepen your understanding & enrich your faith journey.",
     },
     {
       key: 4,
-      title: "Pastor: Help with sermon, wedding homily, eulogy.",
+
       subTitle:
-        "I need a  message for parish bulletin, highlighting the importance of daily Bible reading.",
+        "Enhance your spiritual journey with AI-powered verse-by-verse interpretations, offering personalized guidance to strengthen your faith.",
     },
     {
       key: 5,
-      title: "Bible Interpretation: Verse by verse commentary",
       subTitle:
-        "Could you provide a thorough analysis of Matthew 5:1-12 and its relevance in contemporary society?",
+        "Let AI be your guide in exploring scripture, providing detailed verse-by-verse interpretations to deepen your connection with your faith.",
     },
-    {
-      key: 6,
-      title: "Bible Question: Seek answers for Biblical doubts.",
-      subTitle:
-        "Why Jesus cursed a fig tree, causing it to wither later. Is there any valid explanation for it?",
-    },
+    // {
+    //   key: 6,
+    //   title: "Bible Question: Seek answers for Biblical doubts.",
+    //   subTitle:
+    //     "Why Jesus cursed a fig tree, causing it to wither later. Is there any valid explanation for it?",
+    // },
   ];
+
+  useEffect(() => {
+    dispatch(clearMessageWhenLogin);
+  }, [dispatch]);
 
   useEffect(() => {
     if (location?.pathname.includes("/c/:")) {
       const id = location?.pathname?.replace("/c/:", "");
       dispatch(listChatMessages(id));
     }
-  }, [location?.pathname]);
+  }, [dispatch, location?.pathname]);
   useEffect(() => {
     if (bottomRef.current) {
       setTimeout(() => {
@@ -159,7 +161,7 @@ function App() {
             chatId: newChatId,
             chatMessageId: messageId,
           } = chunk.data;
-          // const sessionId = isAuthenticated ? newSessionId : null;
+          const sessionId = isAuthenticated ? newSessionId : null;
           if (!sessionId) {
             dispatch(
               setSessionId(
@@ -213,12 +215,12 @@ function App() {
     // }
 
     try {
-      const response = await addChatMessageFeedBackAPI(data);
+      // const response = await addChatMessageFeedBackAPI(data);
       CommonToast.notify("success", "Feedback added successfully");
     } catch (err) {
       CommonToast.notify(
         "error",
-        error?.response?.data?.error || "Failed to add Feedback"
+        err?.response?.data?.error || "Failed to add Feedback"
       );
     }
   };
@@ -254,11 +256,11 @@ function App() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      // if (!isAuthenticated) {
-      //   navigate("/login");
-      // } else if (!messages.length && !newSessionTitle && !sessionTitle) {
-      //   setOpenTitleModal(true);
-      // }
+      if (!isAuthenticated) {
+        navigate("/login");
+      } else if (!messages.length && !newSessionTitle && !sessionTitle) {
+        setOpenTitleModal(true);
+      }
       if (
         !messages.length &&
         !newSessionTitle &&
@@ -334,7 +336,7 @@ function App() {
     const transcript = await client.transcripts.transcribe(params);
     if (transcript.status === "error") {
       console.error(`Transcription failed: ${transcript.error}`);
-      process.exit(1);
+      // process.exit(1);
       setLoading(false);
     }
     setLoading(false);
@@ -343,115 +345,71 @@ function App() {
   };
 
   return (
-    <>
-      {" "}
-      {messages.length > 0 && (
-        <div className="invisible-top">
+    <ContentWrapper>
+      {/* */}
+      {/* {messages.length > 0 && (
+        <div>
           <div>
-            <img
-              src={bibleLogo}
-              className="logo-img"
-              alt="Bible Logo"
-              height={41}
-              width={41}
-            />
-            <Typography
-              variant="h5"
-              color="#FFF6F6;
-"
-            >
-              Bible Interpretation AI
-            </Typography>
+            // 
           </div>
         </div>
-      )}
-      <SideBar>
-        {/* Main Content */}
-        <Box className="main-content">
-          {messages.length > 0 ? (
-            <Box className="chat-box">
+      )} */}
+      {/* <SideBar> */}
+      {/* Main Content */}
+      {/* <div className=""> */}
+      <div className="pt-5 text-white ">
+        {messages.length > 0 ? (
+          <>
+            <img src={bibleLogo} className="mx-auto py-3 " />
+            <div className="max-w-[1000px] max-h-[450px] custom-scrollbar mx-auto ">
               <ChatDisplay
                 loader={loading || chatMessagesLoading}
                 onApplyFeedback={onApplyFeedback}
                 isAuthenticated={isAuthenticated}
               />
               <div ref={bottomRef}></div>
-            </Box>
-          ) : (
-            <div id="content" className="details-section">
-              <img
-                src={bibleLogo}
-                className="logo-img"
-                alt="Bible Logo"
-                height={117}
-                width={117}
-              />
-              <Typography
-                variant="h5"
-                color="#FFF6F6;
-"
-              >
-                Bible Interpretation AI
-              </Typography>
-              <Box textAlign="center" my={4}>
-                <Typography
-                  className="details-typography"
-                  variant="h3"
-                  gutterBottom
-                  sx={{
-                    fontSize: "42px",
-                    fontWeight: "700",
-                    maxWidth: "600px",
-                    margin: "auto",
-                    fontFamily: "Albert Sans",
-                  }}
-                >
-                  Uncover Divine Wisdom with AI-Powered Bible Insights
-                </Typography>
-                <Typography
-                  className="details-typography-sub"
-                  variant="subtitle1"
-                  sx={{
-                    color: "#EA9DA1",
-                    maxWidth: "660px",
-                    margin: "auto",
-                  }}
-                >
-                  Explore and understand scripture with AI-driven verse-by-verse
-                  interpretations. Your personal guide to deepening your faith.
-                </Typography>
-              </Box>
-
-              {/* Two Cards Section */}
-              <Grid
-                container
-                spacing={2}
-                justifyContent="center"
-                alignItems="stretch"
-              >
-                {cardData.map((data) => (
-                  <Grid item xs={12} md={4} key={data?.key}>
-                    <Card className="card-style">
-                      <CardContent sx={{ flexGrow: 1, padding: "10px" }}>
-                        <Typography variant="body1" color="#FFD9DB">
-                          {data?.title}
-                        </Typography>
-                        <Typography variant="body2" color="#EA9DA1">
-                          {data?.subTitle}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
-              </Grid>
             </div>
-          )}
-          <Box className="textbox-container" mt={messages.length > 0 ? 0 : 10}>
-            <form onSubmit={formik.handleSubmit} className="w-100">
-              <div className={messages.length ? "invisible-div" : ""} />
-              <Box className="textbox-box">
-                {/* Input Field */}
-                {/* <textarea
+          </>
+        ) : (
+          <>
+            <div className="text-white font-albert-sans max-w-[580px] mx-auto text-center  ">
+              <img src={bibleLogo} className="w-fit pb-7 mx-auto" />
+              <h1 className="text-[#FFF6F6] text-4xl font-bold max-w-[550px] ">
+                Uncover Divine Wisdom with AI-Powered Bible Insights
+              </h1>
+              <h3 className="py-4  text-lg text-[#EA9DA1] ">
+                Explore and understand scripture with AI-driven verse-by-verse
+                interpretations. Your personal guide to deepening your faith.
+              </h3>
+            </div>
+
+            <div className="text-white mx-auto max-w-[950px] justify-center mb-5 text-center  flex flex-wrap gap-4">
+              {cardData.map((data) => (
+                // eslint-disable-next-line react/jsx-key
+                <div className=" max-w-[300px]  rounded-lg ">
+                  <p
+                    className="text-sm  h-[120px] flex items-center px-3 text-center text-[#FFD9DB]"
+                    style={{
+                      backgroundImage: "url('src/assets/img/image.png')",
+                      backgroundRepeat: "no-repeat",
+                    }}
+                  >
+                    {data?.subTitle}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+      mt={messages.length > 0 ? 0 : 10}
+      <form
+        onSubmit={formik.handleSubmit}
+        className=" max-w-[950px] mx-auto relative flex"
+      >
+        {/* <div className={messages.length ? "invisible-div" : ""} /> */}
+        {/* Input Field */}
+        {/* <textarea
                   placeholder="Share your question or explain your concern..."
                   disabled={loading}
                   className="textarea-input"
@@ -460,26 +418,18 @@ function App() {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur} // Mark field as touched
                 /> */}
-                <TextField
-                  variant="standard"
-                  placeholder="Share your question or explain your concern..."
-                  InputProps={{
-                    disableUnderline: true, // Remove the default underline
-                  }}
-                  disabled={loading}
-                  className="textbox-input"
-                  fullWidth
-                  name="question"
-                  value={formik.values.question}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur} // Mark field as touched
-                  // error={
-                  //   formik.touched.question && Boolean(formik.errors.question)
-                  // }
-                  // helperText={formik.touched.question && formik.errors.question}
-                />
-                {/* Record Icon */}
-                {/* {recording ? (
+        <input
+          type="text"
+          placeholder="Share your question or explain your concern..."
+          disabled={loading}
+          className="textbox-input w-full rounded-xl h-[60px] p-2 border-b-2 border-gray-300 focus:border-blue-500"
+          name="question"
+          value={formik.values.question}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+        />
+        {/* Record Icon */}
+        {/* {recording ? (
                   <IconButton
                     className="icon-button"
                     onClick={() => {
@@ -501,39 +451,31 @@ function App() {
                   </IconButton>
                 )} */}
 
-                {/* Generate Button */}
-                <Button
-                  variant="contained"
-                  startIcon={
-                    <img
-                      src="/assets/images/generate-btn-icon.png"
-                      className="generate-icon"
-                    />
-                  }
-                  className="generate-button"
-                  disabled={loading || chatMessagesLoading}
-                  type="submit"
-                >
-                  Generate
-                </Button>
-              </Box>
-            </form>
-          </Box>
-          <Typography className="signup-text" display="inline" mt={3}>
-            <span>
-              <Link noWrap className="signup-link" href="/sign-up">
-                Sign up
-              </Link>
-              &nbsp; or &nbsp;
-              <Link noWrap className="signup-link" href="/login">
-                Sign in
-              </Link>
-              &nbsp; to save your chat history and to receive email updates.
-            </span>
-          </Typography>
-        </Box>
-        {/* Footer */}
-      </SideBar>
+        <div className="absolute flex items-center gap-3 top-2 right-5 ">
+          <Paperclip className="text-[#CA0E18] p-2 h-10 w-10 bg-[#FFDFE0] rounded-full " />
+          <Mic className="text-[#CA0E18] p-2 h-10 w-10 bg-[#FFDFE0] rounded-full  " />
+          <button
+            type="submit"
+            disabled={loading || chatMessagesLoading}
+            className="  flex items-center h-[45px] bg-[#CA0E18] text-white px-4 py-2 rounded-md "
+          >
+            <img
+              src="/assets/images/generate-btn-icon.png"
+              className="generate-icon mr-2"
+            />
+            Generate
+          </button>
+        </div>
+      </form>
+      <p className="text-white text-center font-albert-sans text-lg font-medium py-3 ">
+        <Link className="underline underline-offset-4" to="/sign-up">
+          Sign up
+        </Link>{" "}
+        <span className="text-[#8F8F8F] ">to receive email updates</span>
+      </p>
+      {/* </div> */}
+      {/* Footer */}
+      {/* </SideBar> */}
       <AddTitleModal
         openTitleModal={openTitleModal}
         handleClose={handleCloseTitleModal}
@@ -542,7 +484,8 @@ function App() {
         sessionTitle={newSessionTitle}
       />
       {/* {loading ? <Loader open={loading} message="" /> : ""} */}
-    </>
+      <Footer />
+    </ContentWrapper>
   );
 }
 

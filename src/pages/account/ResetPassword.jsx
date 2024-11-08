@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { handleResetPasswordReq } from "../../redux/auth/actions";
 import ContentWrapper from "../../components/common/wrapper";
-import LeftContainer from "../../components/common/leftContainer";
+import LogoContainer from "../../components/common/logoContainer";
 import FormInput from "../../components/common/formInput";
 import Button from "../../components/common/button";
 import { Link } from "react-router-dom";
-
+import Footer from "../../components/common/footer";
 
 // Validation schema using Yup
 const validationSchema = Yup.object({
@@ -27,57 +27,58 @@ const ResetPassword = () => {
 
   return (
     <ContentWrapper>
-      <div className="lg:h-screen h-full max-w-[1263px] mx-auto lg:space-y-0 space-y-3 items-center gap-5 lg:py-0 py-10 lg:gap-20 grid lg:grid-cols-2 ">
-        <LeftContainer description=" Reset your password to regain access to personalized Bible interpretations." />
-        <div className="bg-white px-4 lg:px-9 rounded-3xl w-full lg:max-w-[542px] text-black">
-          <p className="font-albert-sans font-medium text-xl lg:text-3xl lg:py-8 py-5 " >
-            Reset Password
-          </p>
+      <div className="h-screen max-w-[1263px] flex flex-col justify-between   mx-auto">
+        <div className=" lg:space-y-0 space-y-3 lg:max-h-[400px] m-auto lg:py-0 py-10 lg:gap-x-20 lg:grid lg:grid-cols-2">
+          <LogoContainer description=" Reset your password to regain access to personalized Bible interpretations." />
+          <div className="bg-white px-4 lg:px-9 rounded-3xl w-full lg:max-w-[542px] text-black">
+            <p className="font-albert-sans font-medium text-xl lg:text-3xl lg:py-8 py-5 ">
+              Reset Password
+            </p>
 
-          {/* Formik for form handling */}
-          <Formik
-            initialValues={{ newPassword: "", confirmPassword: "" }}
-            validationSchema={validationSchema}
-            onSubmit={(values, { setSubmitting }) => {
-              const data = {
-                email: registeredMail,
-                newPassword: values.newPassword,
-                // password_confirmation: values.password_confirmation,
-                otp: otp,
-              };
-              dispatch(handleResetPasswordReq(data, navigate, setSubmitting));
-            }}
-          >
-            {({
-              isSubmitting,
-              handleSubmit,
-              handleChange,
-              handleBlur,
-              values,
-              touched,
-              errors,
-            }) => (
-              <form className="lg:space-y-5 space-y-2" onSubmit={handleSubmit}>
-                {/* New Password Field */}
+            {/* Formik for form handling */}
+            <Formik
+              initialValues={{ newPassword: "", confirmPassword: "" }}
+              validationSchema={validationSchema}
+              onSubmit={(values, { setSubmitting }) => {
+                const data = {
+                  email: registeredMail,
+                  newPassword: values.newPassword,
+                  // password_confirmation: values.password_confirmation,
+                  otp: otp,
+                };
+                dispatch(handleResetPasswordReq(data, navigate, setSubmitting));
+              }}
+            >
+              {({
+                isSubmitting,
+                handleSubmit,
+                handleChange,
+                handleBlur,
+                values,
+                touched,
+                errors,
+              }) => (
+                <form className="space-y-5 " onSubmit={handleSubmit}>
+                  {/* New Password Field */}
 
-                <FormInput
-                  className="col-span-2"
-                  heading="password"
-                  placeholder="password"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  value={values.password}
-                  error={errors.password}
-                  touched={touched.password}
-                />
-                {touched.password && errors.password && (
-                  <div className="text-red-500 text-xs col-span-2 lg:text-sm mt-1">
-                    {errors.password}
-                  </div>
-                )}
+                  <FormInput
+                    className="col-span-2"
+                    heading="password"
+                    placeholder="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                    error={errors.password}
+                    touched={touched.password}
+                  />
+                  {touched.password && errors.password && (
+                    <div className="text-red-500 text-xs col-span-2 lg:text-sm mt-1">
+                      {errors.password}
+                    </div>
+                  )}
 
-                {/* Confirm Password Field */}
-                {/* <div >
+                  {/* Confirm Password Field */}
+                  {/* <div >
                     <InputLabel sx={{ fontWeight: "500", color: "black" }}>
                       Confirm Password
                     </InputLabel>
@@ -100,36 +101,38 @@ const ResetPassword = () => {
                       placeholder="Confirm Password"
                     />
                   </div> */}
-                <FormInput
-                  heading="Confirm Password"
-                  placeholder="Confirm Password"
-                  name="confirmPassword"
-                  error={errors.confirmPassword}
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  touched={touched.confirmPassword}
-                  type="password"
-                />
-                {touched.confirmPassword && errors.confirmPassword && (
-                  <div className="text-red-500 text-xs lg:text-sm mt-1">
-                    {errors.confirmPassword}
-                  </div>
-                )}
-                {/* Submit Button */}
-                <Button
-                  type="submit"
-                  text="RESET PASSWORD"
-                  disabled={isSubmitting}
-                />
-              </form>
-            )}
-          </Formik>
+                  <FormInput
+                    heading="Confirm Password"
+                    placeholder="Confirm Password"
+                    name="confirmPassword"
+                    error={errors.confirmPassword}
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    touched={touched.confirmPassword}
+                    type="password"
+                  />
+                  {touched.confirmPassword && errors.confirmPassword && (
+                    <div className="text-red-500 text-xs lg:text-sm mt-1">
+                      {errors.confirmPassword}
+                    </div>
+                  )}
+                  {/* Submit Button */}
+                  <Button
+                    type="submit"
+                    text="RESET PASSWORD"
+                    disabled={isSubmitting}
+                  />
+                </form>
+              )}
+            </Formik>
 
-          <p className="font-albert-sans py-5 text-xs lg:text-lg  ">
-            Remember your password? <Link to="/login">Login</Link>
-          </p>
+            <p className="font-albert-sans py-5 text-xs lg:text-lg  ">
+              Remember your password? <Link to="/login">Login</Link>
+            </p>
+          </div>
         </div>
+        <Footer/>
       </div>
     </ContentWrapper>
   );
